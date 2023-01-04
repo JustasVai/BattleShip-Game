@@ -1,0 +1,61 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  min-width: 550px;
+  font-size: calc(10px + 2vmin);
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.player {
+  padding:10px;
+  padding-bottom: 50px;
+  padding-right: 50px;
+  margin-top: 5vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border:2px solid black;
+  font-weight: bold;
+  font-size: large;
+  /* background-color: rgba(206 ,106,70,0.85); */
+  background-color: rgba(6 ,151,156,0.85);
+  border-radius: 25px;
+  z-index: 10;
+}
+
+
+
+.background {
+  background-image: url("./img/ship.png");
+  height: 100vh;
+  width: 100vw;
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+}
