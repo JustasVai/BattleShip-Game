@@ -29,15 +29,13 @@ const generateShips = () => {
         let overlaps = false;
 
         for (let existingShip of ships) {
-            console.log(ship,checkOverlap(ship, existingShip), checkTouch(ship, existingShip), checkOutOfBounds(ship));
-            if (checkOverlap(ship, existingShip) || checkTouch(ship, existingShip) || checkOutOfBounds(ship)) {
-                
+            if (checkOverlap(ship, existingShip) || checkTouch(ship, existingShip) ) {
                 overlaps = true;
                 break;
             }
         }
 
-        if (!overlaps) {
+        if (!overlaps&&!checkOutOfBounds(ship)) {
             ships.push(ship);
         }
     }
