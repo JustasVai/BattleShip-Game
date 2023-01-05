@@ -34,7 +34,7 @@ function App() {
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
   ]));
-  const [shots, setShots] = useState(25);
+  const [shots, setShots] = useState(100);
 
 
   const handleClick = async (i, j) => {
