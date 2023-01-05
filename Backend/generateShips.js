@@ -140,4 +140,4 @@ function checkOutOfBounds(ship) {
     }
 };
 
-module.exports = generateShips();
+exports.generate =generateShips;

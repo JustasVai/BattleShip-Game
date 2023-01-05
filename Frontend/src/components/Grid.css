@@ -45,6 +45,7 @@
     box-sizing: border-box;
     text-align: center;
     line-height: 50px;
+    transition: 1.3s;
 }
 
 .cell:hover {
