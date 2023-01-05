@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import BattleGrid from './components/Grid';
 import PlayerInfo from './components/PlayerInfo';
@@ -20,7 +20,14 @@ function App() {
     }
     return map;
   };
-
+  const sunkTheShip = (grid, ship) => {
+    for (let i = 0; i < ship.ship.coordinates.length; i++) {
+      var x = ship.ship.coordinates[i].x-1;
+      var y = ship.ship.coordinates[i].y-1;
+      grid[y][x].color = "rgba(0 ,0,0,0.85)";
+      console.log(ship.ship.coordinates[i]);
+    }
+  }
 
   const [playerGrid, setPlayerGrid] = useState(createGridMap([
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -38,42 +45,41 @@ function App() {
 
 
   const handleClick = async (i, j) => {
-    
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        x: j+1,
-        y: i+1
+        x: j + 1,
+        y: i + 1
       }),
     };
     const response = await fetch('http://localhost:5000/', requestOptions);
     const data = await response.json();
-
-    console.log('result is: ', data);
-    console.log(j+1,i+1);
+    const newGrid = [...playerGrid];
     if (shots > 0) {
       if (playerGrid[i][j].value === 'X') {
-        toast('This window has already been shot'
-        );
+        toast('This window has already been shot');
       }
       else {
-        const newGrid = [...playerGrid];
         newGrid[i][j].value = 'X';
 
-        if(data.hit)
-        {
+        if (data.hit) {
           toast('You hit the ship');
           newGrid[i][j].color = "rgba(220 ,20,60,0.85)";
+          console.log(data);
+          if (data.sunk) {
+            toast('You sunk the ship');
+            sunkTheShip(newGrid, data.ship);
+          }
         }
-        else{
+
+        else {
           toast('You missed');
-          // toast('You sunk the ship');
           setShots(shots - 1);
           newGrid[i][j].color = "rgba(6 ,151,156,0.85)";
-          
         }
-       
+
+
         setPlayerGrid(newGrid);
       }
     }

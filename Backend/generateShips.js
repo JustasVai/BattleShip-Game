@@ -1,4 +1,4 @@
-const generateShips = () => {
+function generateShips() {
     const ships = [];
     const letters = [' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
     const directions = ["up", "down", "left", "right"];
@@ -22,27 +22,18 @@ const generateShips = () => {
         else if (ships.length >= 4) {
             length = 2;
         }
-
-        let ship = { i, x, y, direction, length };
-
+        let hits = 0;
+        let coordinates = [];
+        let ship = { i, x, y, direction, length, hits, coordinates };
+        ship.coordinates = shipToCoordinates(ship);
         // Check if ship overlaps with any existing ships or touches them on all sides
         let overlaps = false;
-    
+
         for (let existingShip of ships) {
-            let contains = false;
-            for (let coord of shipToCoordinates(existingShip)) {
-                for (let coord1 of shipToCoordinates(ship)) {
-                    if (coord.x === coord1.x && coord.y === coord1.y) {
-                        contains = true;
-                        break;
-                    }
-                }
-                if(contains===true)
-                {
-                    break;
-                }
-            }
-            if (contains || checkTouch(ship, existingShip)) {
+
+            let contains = checkOverlap(existingShip, ship);
+            //console.log(contains);
+            if (contains) {
                 overlaps = true;
                 break;
             }
@@ -60,12 +51,15 @@ const generateShips = () => {
         let direction = "none"; // 1x1 ships do not have a direction
         let length = 1;
         let i = letters[x];
-        let ship = { i, x, y, direction, length };
-
+        let hits = 0;
+        let coordinates = [];
+        let ship = { i, x, y, direction, length, hits, coordinates };
+        ship.coordinates = shipToCoordinates(ship);
         let overlaps = false;
 
         for (let existingShip of ships) {
-            if (checkOverlap(ship, existingShip) || checkTouch(ship, existingShip)) {
+
+            if (checkOverlap(ship, existingShip)) {
                 overlaps = true;
                 break;
             }
@@ -80,7 +74,7 @@ const generateShips = () => {
     return ships;
 };
 
-const shipToCoordinates = (ship) => {
+function shipToCoordinates(ship) {
     let coordinates = [];
 
     if (ship.direction === "none") {
@@ -113,51 +107,25 @@ const shipToCoordinates = (ship) => {
     return coordinates;
 };
 
-const checkOverlap = (ship, existingShip) => {
-
-    if (existingShip.direction === "none") {
-        if (existingShip.x === ship.x && existingShip.y === ship.y) {
-            return true;
+function checkOverlap(ship, existingShip) {
+    let contains = false;
+    for (let coord of shipToCoordinates(existingShip)) {
+        for (let coord1 of shipToCoordinates(ship)) {
+            const range = Math.sqrt((coord.x - coord1.x) ** 2 + (coord.y - coord1.y) ** 2);
+            if (coord.x === coord1.x && coord.y === coord1.y || range <= 1 || Math.abs(coord.x - coord1.x) === 1 && Math.abs(coord.y - coord1.y) === 1) {
+                contains = true;
+                break;
+            }
+        }
+        if (contains === true) {
+            break;
         }
     }
-
-
-    return false;
+    return contains;
 };
 
-const checkTouch = (ship1, ship2) => {
-    // Check if ship1 and ship2 touch horizontally
-    if (ship1.y === ship2.y) {
-        let start1 = ship1.x;
-        let end1 = ship1.x + ship1.length - 1;
-        let start2 = ship2.x;
-        let end2 = ship2.x + ship2.length - 1;
 
-        if (start1 === end2 + 1 || end1 === start2 - 1) {
-            return true;
-        }
-    }
-    // Check if ship1 and ship2 touch vertically
-    if (ship1.x === ship2.x) {
-        let start1 = ship1.y;
-        let end1 = ship1.y + ship1.length - 1;
-        let start2 = ship2.y;
-        let end2 = ship2.y + ship2.length - 1;
-
-        if (start1 === end2 + 1 || end1 === start2 - 1) {
-            return true;
-        }
-    }
-
-    if (Math.abs(ship1.x - ship2.x) === 1 && Math.abs(ship1.y - ship2.y) === 1) {
-        return true;
-    }
-
-    return false;
-
-};
-
-const checkOutOfBounds = (ship) => {
+function checkOutOfBounds(ship) {
     if (ship.direction === "left") {
         return ship.x - ship.length + 1 <= 0;
     }
@@ -171,4 +139,5 @@ const checkOutOfBounds = (ship) => {
         return ship.y + ship.length - 1 >= 10;
     }
 };
+
 module.exports = generateShips();
