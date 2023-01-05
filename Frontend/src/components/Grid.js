@@ -1,6 +1,6 @@
 import React from 'react';
 import './Grid.css'; // Import the CSS file
-import { useState } from 'react';
+
 const Grid = ({ grid, handleClick }) => {
   const letters = [' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 

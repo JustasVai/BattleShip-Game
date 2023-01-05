@@ -1,10 +1,31 @@
 const express = require("express");
 const app = express();
-const members = require("./members");
-const PORT = process.env.PORT || 3000;
+const ships = require("./generateShips");
+const PORT = process.env.PORT || 5000;
 
-app.get("/", (request, response) => {
-    response.status(200).json({members: members});
+const checkHit = (ships, x, y) => {
+    for (let ship of ships) {
+      if (x === ship.x && y === ship.y) {
+        return true;
+      }
+    }
+    return false;
+};
+  
+app.use(express.json());
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
 });
+
+app.post("/", (request, response) => {
+    var a = Math.random() < 0.5;
+    console.log(request.body);  
+    response.send({hit:checkHit(ships,request.body.x,request.body.y),ships:ships});
+    // response.send({x:request.body.x,y:request.body.y,hit:a});
+}); 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
