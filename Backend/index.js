@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const ships = require("./generateShips");
 const PORT = process.env.PORT || 5000;
-let allShips = ships.generate();
+const games = [];
+
 const checkHit = (allShips, x, y) => {
     for (let ship of allShips) {
         if (ship.direction === "none") {
@@ -58,7 +59,8 @@ app.use(function (req, res, next) {
 });
 
 app.post("/", (request, response) => {
-    var ship = checkHit(allShips, request.body.x, request.body.y);
+    const game = games.find((g) => g.id === request.body.id);
+    var ship = checkHit(game.ships, request.body.x, request.body.y);
     var sunk = false;
     if (ship.ship.length === ship.ship.hits) {
         sunk = true;
@@ -67,7 +69,12 @@ app.post("/", (request, response) => {
 });
 
 app.get("/reset-ships", (request, response) => {
-  allShips = ships.generate();
-    response.send({ ship: allShips});
+    const id = Date.now();
+    const game = {
+        id: id,
+        ships: ships.generate(),
+    };
+    games.push(game);
+    response.send({ game});
 });
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

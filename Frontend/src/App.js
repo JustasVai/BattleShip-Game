@@ -5,16 +5,26 @@ import BattleGrid from './components/Grid';
 import PlayerInfo from './components/PlayerInfo';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Modal, Button } from 'react-bootstrap'
+import { Modal, Button } from 'react-bootstrap';
+import { v4 as uuid } from 'uuid';
 function App() {
+
+  const [id, setId] = React.useState(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      await fetch('http://localhost:5000/reset-ships');
+      await fetch('http://localhost:5000/reset-ships')
+      .then((res) => res.json())
+      .then((data) => {
+         setId(data.game.id);
+         
+      }).catch((err) => {
+        console.log(err.message);
+     });
     }
     fetchData();
   }, []);
-
+ 
   const createGridMap = () => {
     const grid = [
       [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -40,7 +50,7 @@ function App() {
     }
     return map;
   };
-
+ 
   const sunkTheShip = (grid, ship) => {
     for (let i = 0; i < ship.ship.coordinates.length; i++) {
       var x = ship.ship.coordinates[i].x - 1;
@@ -48,7 +58,8 @@ function App() {
       grid[y][x].color = "rgba(0 ,0,0,0.85)";
     }
   }
-
+  
+ 
   const [playerGrid, setPlayerGrid] = useState(createGridMap());
   const [shots, setShots] = useState(25);
   const [isShow, invokeModal] = useState(false);
@@ -66,7 +77,7 @@ function App() {
   const handleClick = async (i, j) => {
    
     const newGrid = [...playerGrid];
-    if (shots > 0 && won != "Won") {
+    if (shots > 0 && won !== "Won") {
       if (playerGrid[i][j].value === 'X') {
         toast('This window has already been shot');
       }
@@ -76,7 +87,8 @@ function App() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             x: j + 1,
-            y: i + 1
+            y: i + 1,
+            id: id
           }),
         };
     
@@ -90,7 +102,6 @@ function App() {
             toast('You sunk the ship');
             sunkTheShip(newGrid, data.ship);
             setDestroyed(shipsDestroyed+1);
-            console.log(shipsDestroyed)
             if(shipsDestroyed === 10)
             {
               initModal();
