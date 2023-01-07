@@ -87,7 +87,3 @@ The player gets alert that he/she lost and can restart game or press close and s
 ![image](https://user-images.githubusercontent.com/67903431/211161008-da34a44e-36f6-4f1e-90be-c78cce584827.png)
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 6ad1ad180d2f39c6acfcf6dafc5a9db783f744cd
