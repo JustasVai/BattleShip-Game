@@ -5,7 +5,7 @@
 * The player plays against a program that has placed ships for him/her.
 
 * On a 10x10 board, the ships are placed as follows:
-| Ship size| Ship count|
+| Ship size | Ship count |
 | :---:    |  :---:    |
 | 5x1      |  1        |
 | 4x1      |  1        |
