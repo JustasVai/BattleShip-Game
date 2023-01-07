@@ -12,12 +12,28 @@ Technologies used for the project:
 Project does not have database. Backend saves games in array. 
 
 ## Instructions on launching application
-Clone the git repository
+
+* Clone the git repository
 ```bash
 git clone https://github.com/JustasVai/BattleShip-Game.git
 cd BattleShip-Game
 ```
-And install npm dependencies
+
+* Frontend start
+```bash
+cd Backend
+npm install
+npm start
+```
+
+* Frontend start
+```bash
+cd Frontend
+npm install
+npm start
+```
+
+* Navigate to http://localhost:3000 to get started!
 
 ## Game rules
 * The game is played according to the "player against computer" principle.
