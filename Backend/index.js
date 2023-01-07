@@ -16,13 +16,8 @@ app.use(function (req, res, next) {
 
 app.post("/", (request, response) => {
     const game = games.find((g) => g.id === request.body.id);
-    console.log(games)
     var ship = shipsLogic.checkHit(game.ships, request.body.x, request.body.y);
-    var sunk = false;
-    if (ship.ship.length === ship.ship.hits) {
-        sunk = true;
-    }
-    response.send({ hit: ship.hit, ship: ship, sunk: sunk });
+    response.send({ hit: ship.hit, ship: ship, ships : game.ships });
 });
 
 app.get("/reset-ships", (request, response) => {
@@ -31,8 +26,8 @@ app.get("/reset-ships", (request, response) => {
         id: id,
         ships: shipsLogic.generate(),
     };
+
     games.push(game);
-    console.log(shipsLogic.generate())
     response.send({ game});
 });
 

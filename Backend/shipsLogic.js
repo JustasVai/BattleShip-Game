@@ -23,8 +23,9 @@ function generateShips() {
             length = 2;
         }
         let hits = 0;
+        let sunk = false;
         let coordinates = [];
-        let ship = { i, x, y, direction, length, hits, coordinates };
+        let ship = { i, x, y, direction, length, hits, coordinates ,sunk};
         ship.coordinates = shipToCoordinates(ship);
         // Check if ship overlaps with any existing ships or touches them on all sides
         let overlaps = false;
@@ -53,7 +54,8 @@ function generateShips() {
         let i = letters[x];
         let hits = 0;
         let coordinates = [];
-        let ship = { i, x, y, direction, length, hits, coordinates };
+        let sunk = false;
+        let ship = { i, x, y, direction, length, hits, coordinates,sunk };
         ship.coordinates = shipToCoordinates(ship);
         let overlaps = false;
 
@@ -141,7 +143,12 @@ function checkOutOfBounds(ship) {
         return ship.y + ship.length - 1 >= 10;
     }
 };
-
+const checkSunk = (ship) =>{
+    if(ship.hits===ship.length)
+    {
+        ship.sunk = true;
+    }
+}
 //Function to check if shot hit ship
 const checkHit = (allShips, x, y) => {
     for (let ship of allShips) {
@@ -149,6 +156,7 @@ const checkHit = (allShips, x, y) => {
             // 1x1 size ship
             if (x === ship.x && y === ship.y) {
                 ship.hits++;
+                checkSunk(ship);
                 return { hit: true, ship: ship };
             }
         }
@@ -157,6 +165,7 @@ const checkHit = (allShips, x, y) => {
             if (ship.direction === "left") {
                 if (y === ship.y && x <= ship.x && x >= ship.x - ship.length + 1) {
                     ship.hits++;
+                    checkSunk(ship);
                     return { hit: true, ship: ship };
 
                 }
@@ -164,6 +173,7 @@ const checkHit = (allShips, x, y) => {
             else if (ship.direction === "right") {
                 if (y === ship.y && x >= ship.x && x <= ship.x + ship.length - 1) {
                     ship.hits++;
+                    checkSunk(ship);
                     return { hit: true, ship: ship };
 
                 }
@@ -171,12 +181,14 @@ const checkHit = (allShips, x, y) => {
             else if (ship.direction === "up") {
                 if (x === ship.x && y <= ship.y && y >= ship.y - ship.length + 1) {
                     ship.hits++;
+                    checkSunk(ship);
                     return { hit: true, ship: ship };
                 }
             }
             else {
                 if (x === ship.x && y >= ship.y && y <= ship.y + ship.length - 1) {
                     ship.hits++;
+                    checkSunk(ship);
                     return { hit: true, ship: ship };
                 }
 
