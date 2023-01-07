@@ -61,5 +61,5 @@ npm start
 * The player has 25 shots. If a shot hits a ship, it does not count as one of the 25 shots. If the player's shot is unsuccessful, then one shot is counted as used.
 * The player wins the game if all ships are sunk without using all 25 shots.
 * The player loses the game if all 25 shots are used and all ships are not sunk.
-* At the end of the game, the player can start a new game.
+* At the end of the game, the player can start a new game and the game shows ships that was not hit and sunk.
 
