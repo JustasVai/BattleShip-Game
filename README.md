@@ -63,3 +63,28 @@ npm start
 * The player loses the game if all 25 shots are used and all ships are not sunk.
 * At the end of the game, the player can start a new game and the game shows ships that was not hit and sunk.
 
+## Task Implementation
+
+Project has only one Main window.
+
+![image](https://user-images.githubusercontent.com/67903431/211160627-573621b2-89ba-4c56-92fa-33861e9ba46a.png)
+
+* If a shot is taken and misses its target, an alert message appears to inform the shooter that they missed, and the window changes to blue.
+
+![image](https://user-images.githubusercontent.com/67903431/211160643-37e51003-6b1a-4529-b5c0-4e78bf879919.png)
+
+* If a shot is taken and hits its target, an alert message appears to inform the shooter that they hit, and the window display changes to red.
+
+![image](https://user-images.githubusercontent.com/67903431/211160882-e06e7e9e-7ff0-4265-9d66-d051c20f65a2.png)
+
+* If a shot is taken and hits its target and sinks the ship, all ship becomes black. An alert message shows that the ship is sunk.
+
+![image](https://user-images.githubusercontent.com/67903431/211160934-f1e4ba3c-d8e0-4030-85ef-3be525949c9f.png)
+
+* The player loses the game if all 25 shots are used and all ships are not sunk.
+The player gets alert that he/she lost and can restart game or press close and see where all the ships were(they are colored red).
+
+![image](https://user-images.githubusercontent.com/67903431/211161008-da34a44e-36f6-4f1e-90be-c78cce584827.png)
+
+
+
