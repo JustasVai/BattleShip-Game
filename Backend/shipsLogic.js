@@ -3,7 +3,7 @@ function generateShips() {
     const letters = [' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
     const directions = ["up", "down", "left", "right"];
 
-    //generate 1 more 5x1 ship
+    //generates 1-5x1, 1-4x1, 2-3x1, 3-2x1, 3-1x1 ships
     while (ships.length < 7) {
         let x = Math.floor(Math.random() * 10 + 1);
         let y = Math.floor(Math.random() * 10 + 1);
@@ -74,6 +74,7 @@ function generateShips() {
     return ships;
 };
 
+//Function to get coordinates from ship objects
 function shipToCoordinates(ship) {
     let coordinates = [];
 
@@ -107,6 +108,7 @@ function shipToCoordinates(ship) {
     return coordinates;
 };
 
+//Function to check if ships are overlaping
 function checkOverlap(ship, existingShip) {
     let contains = false;
     for (let coord of shipToCoordinates(existingShip)) {
@@ -124,7 +126,7 @@ function checkOverlap(ship, existingShip) {
     return contains;
 };
 
-
+//Function to check if ship is out of bounds
 function checkOutOfBounds(ship) {
     if (ship.direction === "left") {
         return ship.x - ship.length + 1 <= 0;
@@ -140,4 +142,49 @@ function checkOutOfBounds(ship) {
     }
 };
 
+//Function to check if shot hit ship
+const checkHit = (allShips, x, y) => {
+    for (let ship of allShips) {
+        if (ship.direction === "none") {
+            // 1x1 size ship
+            if (x === ship.x && y === ship.y) {
+                ship.hits++;
+                return { hit: true, ship: ship };
+            }
+        }
+        else {
+            // 2x1 3x1 4x1 5x1 size 
+            if (ship.direction === "left") {
+                if (y === ship.y && x <= ship.x && x >= ship.x - ship.length + 1) {
+                    ship.hits++;
+                    return { hit: true, ship: ship };
+
+                }
+            }
+            else if (ship.direction === "right") {
+                if (y === ship.y && x >= ship.x && x <= ship.x + ship.length - 1) {
+                    ship.hits++;
+                    return { hit: true, ship: ship };
+
+                }
+            }
+            else if (ship.direction === "up") {
+                if (x === ship.x && y <= ship.y && y >= ship.y - ship.length + 1) {
+                    ship.hits++;
+                    return { hit: true, ship: ship };
+                }
+            }
+            else {
+                if (x === ship.x && y >= ship.y && y <= ship.y + ship.length - 1) {
+                    ship.hits++;
+                    return { hit: true, ship: ship };
+                }
+
+            }
+        }
+    }
+    return { hit: false, ship: "" };
+};
+
 exports.generate =generateShips;
+exports.checkHit = checkHit;
